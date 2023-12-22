@@ -62,23 +62,10 @@ class model(nn.Module):
 
         return outputs
 
-    def forward(self, text, prompt=None, level=None):
-
-        if level != None:
-            self.layers = level
+    def forward(self, text):
 
         ids, tokens = self._tokenize(text)
         delta = None
-
-        if prompt != None:
-            _ids,_tokens = self._tokenize(prompt)
-
-            if self.sptoks:
-                _ids, _tokens = _ids[:-1],_tokens[:-1]
-                ids,tokens = ids[1:],tokens[1:]
-
-            ids, tokens = _ids+ids, np.concatenate([_tokens, tokens])
-            delta = len(_ids)
 
         Ex = self.E(ids)
 
@@ -89,4 +76,7 @@ class model(nn.Module):
 
             Ex, tokens = Ex[1:-1], tokens[1:-1]
 
-        return Ex, tokens, delta
+        if delta != None:
+            Ex = Ex[delta:]
+
+        return Ex
