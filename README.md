@@ -38,7 +38,6 @@ Any use of this package should cite it using the following:
 	doi = {10.3758/s13428-023-02267-2},
 	journal = {Behavior Research Methods},
 	author = {Rosen, Zachary P and Dale, Rick},
-	month = nov,
 	year = {2023},
 }
 ```
