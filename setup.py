@@ -13,4 +13,6 @@ setup(
     author='Zachary Rosen',
     version="1.0",
     install_requires=install_requires
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown'
 )
