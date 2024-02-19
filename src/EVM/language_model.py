@@ -11,4 +11,4 @@ class languageModel(nn.Module):
 
     def forward(self, text):
         inputs = self.tok(text, return_tensors='pt')
-        return self.wv(**inputs)
+        return self.wv(**inputs).last_hidden_state.squeeze(0)
