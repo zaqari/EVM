@@ -5,14 +5,14 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Auto
 
 class model(nn.Module):
 
-    def __init__(self, model='Hate-speech-CNERG/dehatebert-mono-english', special_tokens=True, device='cpu', layers=[7,-1], max_sequence_length=500, clip_at=400, pre_sequence_stride=100):
+    def __init__(self, model_name='google-bert/bert-base-uncased', special_tokens=True, device='cpu', layers=[7,-1], max_sequence_length=500, clip_at=400, pre_sequence_stride=100):
         super(model, self).__init__()
         self.dev = device                   # whether running on 'cuda' or 'cpu' or some other device
 
         # BERT Model components
-        self.config = AutoConfig.from_pretrained(model, output_hidden_states=True)
-        self.tokenizer = AutoTokenizer.from_pretrained("Hate-speech-CNERG/dehatebert-mono-english")
-        self.mod = AutoModelForSequenceClassification.from_pretrained(model, config=self.config).to(self.dev)
+        self.config = AutoConfig.from_pretrained(model_name, output_hidden_states=True)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.mod = AutoModelForSequenceClassification.from_pretrained(model_name, config=self.config).to(self.dev)
 
         # Vector manipulations
         self.layers = layers                # which hidden layers to attenuate to

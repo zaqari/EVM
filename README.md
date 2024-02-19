@@ -10,13 +10,10 @@ At its core there are two things that researchers need to define for the most ba
 Demonstrating how this would look in code:
 
 ```python
-from EVM import EVM, languageModel
+from EVM import EVM, languageModelLayers
 from transformers import AutoTokenizer, AutoModel
 
-wv = languageModel(
-    vector_model = AutoModel.from_pretrained('roberta-base'),
-    tokenizer = AutoTokenizer.from_pretrained('roberta-base')
-)
+wv = languageModelLayers('roberta-base', layers=[7])
 
 mod = EVM(
     word_vector_model = wv
