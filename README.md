@@ -11,10 +11,10 @@ Demonstrating how this would look in code:
 
 ```python
 from EVM import EVM, languageModel
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModel
 
 wv = languageModel(
-    vector_model = AutoModelForSequenceClassification.from_pretrained('roberta-base'),
+    vector_model = AutoModel.from_pretrained('roberta-base'),
     tokenizer = AutoTokenizer.from_pretrained('roberta-base')
 )
 
