@@ -1,6 +1,6 @@
-# Entropy-Vergence Metric
+# Entropy-conVergence Metric
 
-The following is a full implementation of the Entropy (con/di)-Vergence Metric as described in Rosen and Dale 2023. We've taken strides to make this package as easy to implement as possible.
+The following is a full implementation of the convergence-entropy measurement framework (here referred to as Entropy-conVergence Metric, or EVM) as described in Rosen and Dale 2023. We've taken strides to make this package as easy to implement as possible.
 
 At its core there are two things that researchers need to define for the most basic version of the EVM algorithm. Those are:
 
