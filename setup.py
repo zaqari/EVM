@@ -9,10 +9,10 @@ if os.path.isfile(requirement_path):
         install_requires = f.read().splitlines()
 
 setup(
-    name="EVM",
-    author='Zachary Rosen',
+    name="convergence_entropy_metric",
+    author='ZP Rosen',
     version="1.0",
     install_requires=install_requires,
-    long_description="""The following is a full implementation of the convergence-entropy measurement framework (here referred to as Entropy-conVergence Metric, or EVM) as described in Rosen and Dale 2023. We've taken strides to make this package as easy to implement as possible. \nSee https://github.com/zaqari/EVM for details.""",
-    long_description_content_type='text/x-rst'
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown'
 )
