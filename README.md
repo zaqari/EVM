@@ -27,3 +27,18 @@ mod('I hate mondays with the sort of burning passion reserved for the spiteful',
 ```
 
 The above returns the entropy for the first sentence upon having read the second sentence, consistent with the equations and formulation listed in Rosen and Dale 2023.
+
+Any use of this package should cite it using the following:
+
+```
+@article{rosen_berts_2023,
+	title = {{BERTs} of a feather: {Studying} inter- and intra-group communication via information theory and language models},
+	shorttitle = {{BERTs} of a feather},
+	url = {https://link.springer.com/10.3758/s13428-023-02267-2},
+	doi = {10.3758/s13428-023-02267-2},
+	journal = {Behavior Research Methods},
+	author = {Rosen, Zachary P and Dale, Rick},
+	month = nov,
+	year = {2023},
+}
+```
