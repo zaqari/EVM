@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Auto
 
 class languageModel(nn.Module):
 
-    def __int__(self, vector_model: object, tokenizer: object):
+    def __init__(self, vector_model: object, tokenizer: object):
         super(languageModel, self).__init__()
         self.wv = vector_model
         self.tok = tokenizer
