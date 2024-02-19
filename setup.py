@@ -13,6 +13,6 @@ setup(
     author='Zachary Rosen',
     version="1.0",
     install_requires=install_requires
-    long_description="""The following is a full implementation of the convergence-entropy measurement framework (here referred to as Entropy-conVergence Metric, or EVM) as described in Rosen and Dale 2023. We've taken strides to make this package as easy to implement as possible.""",
+    long_description="""The following is a full implementation of the convergence-entropy measurement framework (here referred to as Entropy-conVergence Metric, or EVM) as described in Rosen and Dale 2023. We've taken strides to make this package as easy to implement as possible.\n Additional details can be found at https://github.com/zaqari/EVM""",
     long_description_content_type='text/x-rst'
 )
