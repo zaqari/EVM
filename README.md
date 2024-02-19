@@ -22,8 +22,8 @@ mod = EVM(
     word_vector_model = wv
 )
 
-mod('I hate mondays with the sort of burning passion reserved for the spiteful', 'There is no worse day than wednesday during the week'), \
-mod('I hate mondays with the sort of burning passion reserved for the spiteful', 'I adore the feeling of a good monday meeting')
+mod('No political action can be taken without first consulting the populace', 'it is the prerogative of the political class to make decisions'), \
+mod('No political action can be taken without first consulting the populace', 'Ultimately the populace has to have the right to decide their own fate')
 ```
 
 The above returns the entropy for the first sentence upon having read the second sentence, consistent with the equations and formulation listed in Rosen and Dale 2023.
