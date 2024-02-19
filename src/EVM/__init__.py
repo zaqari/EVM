@@ -9,7 +9,7 @@ from .multi_level_language_model import model as languageModelLayers
 
 class EVM(nn.Module):
 
-    def __init__(self, wv_model: object, sigma: float=.8, entropy_dim: Union[int,None]=-1):
+    def __init__(self, wv_model: object, sigma: float=.3, entropy_dim: Union[int,None]=-1):
         super(EVM, self).__init__()
         self.wv = wv_model
         self.H = H(
