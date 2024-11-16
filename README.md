@@ -10,12 +10,12 @@ At its core there are two things that researchers need to define for the most ba
 Demonstrating how this would look in code:
 
 ```python
-from EVM import EVM, languageModelLayers
+from convergence_entropy.CEM import CEM, languageModelLayers
 from transformers import AutoTokenizer, AutoModel
 
 wv = languageModelLayers('roberta-base', layers=[7])
 
-mod = EVM(
+mod = CEM(
     word_vector_model = wv
 )
 
@@ -29,7 +29,7 @@ The above returns the entropy for the first sentence upon having read the second
 The Convergence Entropy Data Analysis package (CEDA) is an end-to-end shell designed to facilitate GPU assisted, fast analyses. Implementationally, it is quite simple.
 
 ```python
-from CEDA import ceda_model
+from convergence_entropy.CEDA import ceda_model
 
 GRAPH = ceda_model(
     sigma=1.,

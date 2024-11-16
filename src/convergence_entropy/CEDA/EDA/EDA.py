@@ -22,50 +22,51 @@ class explorer():
         self.min_x = 5
         self.min_y = 5
 
-    def __recurrence_plot(self, zrange: int=5, colorscale='brbg', minimum_row_utterance_length: int=5, minimum_col_utterance_length: int=5, unidirectional: bool=False):
-        resid = self.G.resid(flat=False)
-        if resid.shape[0] == resid.shape[1]:
-            resid = resid * (torch.eye(resid.shape[0]) == 0).float()
-            row_mask = (self.G.GRAPH.N[:, 0] >= minimum_row_utterance_length).float().view(-1, 1)
-            col_mask = (self.G.GRAPH.N[:, 0] >= minimum_col_utterance_length).float().view(1, -1)
-
-        else:
-            row_mask = 1
-            col_mask = 1
-
-        resid = (resid * row_mask) * col_mask
-        if unidirectional:
-            for i in range(resid.shape[0]):
-                resid[i,:i] = 0.
-
-        if self.RMX == None:
-            self.RMX = recurrence_plot(
-                heatmap=resid,
-                x_labels=self.G.x_labels,
-                y_labels=self.G.y_labels
-            )
-
-        return self.RMX.get_figure(zrange=zrange, colorscale=colorscale)
+    # def __recurrence_plot(self, zrange: int=5, colorscale='brbg', minimum_row_utterance_length: int=5, minimum_col_utterance_length: int=5, unidirectional: bool=False):
+    #     resid = self.G.resid(flat=False)
+    #     if resid.shape[0] == resid.shape[1]:
+    #         resid = resid * (torch.eye(resid.shape[0]) == 0).float()
+    #         row_mask = (self.G.GRAPH.N[:, 0] >= minimum_row_utterance_length).float().view(-1, 1)
+    #         col_mask = (self.G.GRAPH.N[:, 0] >= minimum_col_utterance_length).float().view(1, -1)
+    #
+    #     else:
+    #         row_mask = 1
+    #         col_mask = 1
+    #
+    #     resid = (resid * row_mask) * col_mask
+    #     if unidirectional:
+    #         for i in range(resid.shape[0]):
+    #             resid[i,:i] = 0.
+    #
+    #     if self.RMX == None:
+    #         self.RMX = recurrence_plot(
+    #             heatmap=resid,
+    #             x_labels=self.G.x_labels,
+    #             y_labels=self.G.y_labels
+    #         )
+    #
+    #     return self.RMX.get_figure(zrange=zrange, colorscale=colorscale)
 
     def recurrence_plot(self, min_cutoff: int=0, zrange: int=5, colorscale='brbg', minimum_row_utterance_length: int=5, minimum_col_utterance_length: int=5, unidirectional: bool=False):
-        if not isinstance(self.odf, pd.DataFrame):
-            self.odf = self.create_odf(
-                min_cutoff=min_cutoff,
-                minimum_x_length=minimum_row_utterance_length,
-                minimum_y_length=minimum_col_utterance_length,
-                unidirectional=unidirectional
-            )
-
-        self.RMX = recurrence_plot(
-            df=self.odf,
-            x_labels=list(self.G.x_labels[0].keys()),
-            y_labels=list(self.G.y_labels[0].keys()),
-            xid='idx',
-            yid='idy',
-            values_col='Hxy'
-        )
-
-        return self.RMX.get_figure(zrange=zrange,colorscale=colorscale)
+        # if not isinstance(self.odf, pd.DataFrame):
+        #     self.odf = self.create_odf(
+        #         min_cutoff=min_cutoff,
+        #         minimum_x_length=minimum_row_utterance_length,
+        #         minimum_y_length=minimum_col_utterance_length,
+        #         unidirectional=unidirectional
+        #     )
+        #
+        # self.RMX = recurrence_plot(
+        #     df=self.odf,
+        #     x_labels=list(self.G.x_labels[0].keys()),
+        #     y_labels=list(self.G.y_labels[0].keys()),
+        #     xid='idx',
+        #     yid='idy',
+        #     values_col='Hxy'
+        # )
+        #
+        # return self.RMX.get_figure(zrange=zrange,colorscale=colorscale)
+        return "Currently under construction!"
 
 
     def create_odf(self, min_cutoff: int=-100, minimum_x_length: int=5, minimum_y_length: int=5):

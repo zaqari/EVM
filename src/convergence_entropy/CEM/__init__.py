@@ -7,10 +7,10 @@ from .entropy import entropy as H
 from .language_model import languageModel
 from .multi_level_language_model import model as languageModelLayers
 
-class EVM(nn.Module):
+class CEM(nn.Module):
 
     def __init__(self, wv_model: object, sigma: float=.3, entropy_dim: Union[int,None]=-1):
-        super(EVM, self).__init__()
+        super(CEM, self).__init__()
         self.wv = wv_model
         self.H = H(
             sigma=sigma,

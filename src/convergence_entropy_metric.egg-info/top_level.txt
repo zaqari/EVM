@@ -1,3 +1,2 @@
-CEDA
-EVM
 __init__
+convergence_entropy
