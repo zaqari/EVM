@@ -39,7 +39,7 @@ GRAPH = ceda_model(
 )
 ```
 
-Where `wv_model` is parameter for the string name of any model available from the HuggingFace library of language models, and level selects which hidden layers to attenuate to when producing a representation of lexical units.
+Where `wv_model` is parameter for the string name of any model available from the HuggingFace library of language models, and `wv_layers` selects which hidden layers to attenuate to from the language model when producing a representation of lexical units.
 
 On run-time, one can pass to the model a list of strings for both utterances $x$ and $y$ (see Rosen & Dale 2023 for terminology).
 
