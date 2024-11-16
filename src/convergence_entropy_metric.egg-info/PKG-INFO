@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: convergence_entropy_metric
-Version: 1.2.1
+Version: 1.2.2
 Author: ZP Rosen
 Description-Content-Type: text/markdown
 License-File: LICENSE
@@ -30,11 +30,11 @@ from transformers import AutoTokenizer, AutoModel
 wv = languageModelLayers('roberta-base', layers=[7])
 
 mod = CEM(
-    word_vector_model = wv
+    wv_model = wv
 )
 
-mod('No political action can be taken without first consulting the populace', 'it is the prerogative of the political class to make decisions'), \
-mod('No political action can be taken without first consulting the populace', 'Ultimately the populace has to have the right to decide their own fate')
+mod('No action can be taken without first consulting the voters', 'it is the prerogative of politicians alone to make decisions'), \
+mod('No action can be taken without first consulting the voters', 'ultimately the people have to have the right to decide what we do next')
 ```
 
 The above returns the entropy for the first sentence upon having read the second sentence, consistent with the equations and formulation listed in Rosen and Dale 2023.
