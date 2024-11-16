@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: convergence_entropy_metric
-Version: 1.0.1.3
+Version: 1.0.2
 Author: ZP Rosen
 Description-Content-Type: text/markdown
 License-File: LICENSE
@@ -84,13 +84,20 @@ This creates a graph that can be used for any number of convergence-entropy base
 Finally, one can save a checkpoint for the graph using the checkpoint function
 
 ```python
-CKPT_PATH = 'path/to/checkpoint'
+CKPT_PATH = 'path/to/checkpoint.pt'
 GRAPH.checkpoint(CKPT_PATH)
 ```
 
-Or create a dataframe for the graph to be saved as a .csv or other format.
+Saving a graph using the `.checkpoint()` has the added benefit, too, of allowing you to load a CEDA graph object from that checkpoint later.
 
+```python
+CKPT_PATH = 'path/to/checkpoint.pt'
+GRAPH.load_from_checkpoint(CKPT_PATH)
 ```
+
+You can also create a dataframe for the graph to be saved as a .csv or other format.
+
+```python
 CKPT_PATH = 'path/to/checkpoint.csv'
 df = GRAPH.graph_df()
 df.to_csv(CKPT_PATH, index=False, encoding='utf-8')
