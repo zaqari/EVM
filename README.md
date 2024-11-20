@@ -106,3 +106,6 @@ Any use of this package should cite it using the following:
 	year = {2023},
 }
 ```
+
+If you're interested in the most up-to-date version of this package or are interested in contributing to it, you can find
+[the github repository for it here](https://github.com/zaqari/EVM).

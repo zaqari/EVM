@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: convergence_entropy_metric
-Version: 1.2.2
+Version: 1.2.3
 Author: ZP Rosen
 Description-Content-Type: text/markdown
 License-File: LICENSE
@@ -120,3 +120,6 @@ Any use of this package should cite it using the following:
 	year = {2023},
 }
 ```
+
+If you're interested in the most up-to-date version of this package or are interested in contributing to it, you can find
+[the github repository for it here](https://github.com/zaqari/EVM).
