@@ -1,7 +1,0 @@
-torch
-numpy
-transformers
-seaborn
-plotly
-matplotlib
-scikit-learn
