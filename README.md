@@ -48,12 +48,10 @@ x_sentences = ['a list of', 'sentences']
 y_sentences = ['another list', 'of more sentences']
 
 GRAPH.fit(x_sentences, y_sentences)
-GRAPH.add_meta_data(
-    meta_data = [
+GRAPH.meta_data = [
         {'a': 1, 'b': 2}, # a records oriented json object for metadata for each comparison in the graph.
                           #   Not required.
     ]
-)
 ```
 
 If there are repeated sentences in `x_sentence` or `y_sentences` it is worthwhile to sort the lists so as to cluster repetitions. This is because the model is designed to optimize for repeated examples by only generating vector representations for an utterance once in either the $x$ or $y$ variable so long as that element is repeated. Thus if you have a list of comparisons

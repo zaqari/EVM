@@ -5,7 +5,7 @@ import os
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-from itertools import combinations,product
+from itertools import combinations, product
 from datetime import datetime as dt
 
 from sklearn.linear_model import Ridge as LREG

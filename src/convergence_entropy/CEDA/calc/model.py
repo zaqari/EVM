@@ -38,7 +38,8 @@ class model(nn.Module):
                 sigma=sigma,
                 dim=None,
                 device=device
-            )
+            ),
+            device=device
         )
 
         self.GRAPH = FGA(  # Graph object to run complete, end-to-end
@@ -65,10 +66,7 @@ class model(nn.Module):
             if meta_data:
                 self.meta_data += meta_data
 
-    def add_meta_data(self, meta_data: list[dict]):
-        self.meta_data += meta_data
-
-    def graph_df(self, residualize: bool=False):
+    def graph_df(self, residualize: bool=True):
 
         if residualize:
             df = pd.DataFrame(

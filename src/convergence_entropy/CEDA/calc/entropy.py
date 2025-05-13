@@ -3,9 +3,95 @@ import numpy as np
 import torch.nn as nn
 
 class entropy(nn.Module):
+
+    def __init__(self, sigma=1., dim=None, device='cpu'):
+        super(entropy, self).__init__()
+
+        self.sigma = sigma
+        # self.dev = device
+        self.dim = dim
+        self.stream_n = 2
+
+        if 'cuda' in device.lower():
+            self.cos = nn.CosineSimilarity(dim=-1).cuda()
+            self.N = torch.distributions.HalfNormal(scale=torch.FloatTensor([sigma]).cuda(), validate_args=False)
+
+        else:
+            self.cos = nn.CosineSimilarity(dim=-1)
+            self.N = torch.distributions.HalfNormal(scale=torch.FloatTensor([sigma]), validate_args=False)
+
+
+    def __stream_cos_one_sided(self, ex, ey):
+
+        spans = int(len(ex) / self.stream_n)
+
+        starts = [i * self.stream_n for i in range(spans)] + [spans * self.stream_n]
+        ends = [(i + 1) * self.stream_n for i in range(spans)] + [len(ex)]
+        steps = list(zip(starts, ends))
+
+        cosM = self.cos(ex[steps[0][0]:steps[0][1]].unsqueeze(1), ey).max(dim=-1).values.view(-1)
+        for start, end in steps[1:]:
+            if start != len(ex):
+                cosM = torch.cat([
+                    cosM,
+                    self.cos(ex[start:end].unsqueeze(1), ey).max(dim=-1).values.view(-1)
+                ], dim=-1)
+
+        return cosM
+
+    def __stream_cos_two_sided(self, ex, ey):
+
+        spans = int(np.floor(len(ex) / self.stream_n))
+
+        steps = [(i * self.stream_n, (i + 1) * self.stream_n) for i in range(spans)]
+        if steps[-1][-1] < len(ex):
+            steps += [(steps[-1][-1], None)]
+
+        cosMx, cosMy = torch.zeros(size=(1,)).cuda(), torch.zeros(size=(len(ey), 1)).cuda() - 1.
+
+        for start, end in steps:
+            cos = self.cos(ex[start:end].unsqueeze(1), ey)
+
+            cosMx = torch.cat([cosMx, cos.max(dim=-1).values.view(-1)], dim=-1)
+            cosMy = torch.cat([cos.max(dim=0).values.view(-1, 1), cosMy], dim=-1).max(dim=-1).values.view(-1, 1)
+
+        return cosMx.view(-1)[1:], cosMy.view(-1)
+
+    def one_sided(self, ex, ey, dim=None):
+        if bool(dim):
+            self.dim = dim
+
+        try:
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=self.dim).values
+        except Exception:
+            C = self.__stream_cos_one_sided(ex,ey)
+
+        C = self.N.log_prob(1 - C)
+
+        return -(torch.exp(C) * C).sum()
+
+    def dual_sided(self, ex, ey):
+        try:
+            C = self.cos(ex.unsqueeze(1), ey)
+            C1, C2 = C.max(dim=-1).values, C.max(dim=0).values
+        except Exception:
+            torch.cuda.empty_cache()
+            C1, C2 = self.__stream_cos_two_sided(ex, ey)
+
+
+        C1, C2 = self.N.log_prob(1 - C1), self.N.log_prob(1 - C2)
+        return -(torch.exp(C1) * C1).sum(), -(torch.exp(C2) * C2).sum()
+
+    def forward(self, ex, ey):
+        if self.dim:
+            return self.one_sided(ex, ey)
+        else:
+            return self.dual_sided(ex, ey)
+
+class entropy__(nn.Module):
     
     def __init__(self, sigma=.8, dim=None):
-        super(entropy, self).__init__()
+        super(entropy__, self).__init__()
         self.cos = nn.CosineSimilarity(dim=-1)
         self.N = torch.distributions.Normal(1,scale=sigma, validate_args=False)
         self.dim = dim
@@ -178,7 +264,7 @@ class entropy_cdf(nn.Module):
         self.dim = dim
         self.stream_n = 2
 
-        if device != 'cpu':
+        if 'cuda' in device.lower():
             self.cos = nn.CosineSimilarity(dim=-1).cuda()
             self.N = torch.distributions.HalfNormal(scale=torch.FloatTensor([sigma]).cuda(), validate_args=False)
 

@@ -71,5 +71,5 @@ class analyzer(nn.Module):
             return self.sim(self.ex, self.ey), (self.ex.shape[0], self.ey.shape[0])
 
         else:
-            return (None, None), (0, 0)
+            return torch.FloatTensor([-404.404, -404.404]), (0, 0)
 
