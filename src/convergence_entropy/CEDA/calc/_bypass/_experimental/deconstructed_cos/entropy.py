@@ -37,7 +37,7 @@ class just_cosines(nn.Module):
         dim = np.argmax([len(ex), len(ey)])
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=self.dim).values
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
 
         except Exception:
             if dim == 0:
