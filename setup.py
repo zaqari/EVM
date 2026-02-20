@@ -11,7 +11,7 @@ if os.path.isfile(requirement_path):
 setup(
     name="convergence_entropy_metric",
     author='ZP Rosen',
-    version="1.3",
+    version="1.3.1",
     setup_requires=install_requires,
     install_requires=install_requires,
     long_description=open('README.md').read(),
