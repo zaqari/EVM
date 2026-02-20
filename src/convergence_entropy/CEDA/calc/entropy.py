@@ -41,16 +41,16 @@ class entropy(nn.Module):
 
     def forward(self, ex, ey):
         N = [len(ex), len(ey)]
-        dim = np.argmax(N)
+        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ex,ey).max(dim=0).values
+            if d == 0:
+                C = self.__stream_cos(ex, ey).max(dim=0).values
             else:
-                C = self.__stream_cos_one_sided(ey, ex).max(dim=0).values
+                C = self.__stream_cos(ey, ex).max(dim=0).values
 
         logp = self.N.log_prob(1-C)
 
@@ -94,16 +94,16 @@ class entropy_cdf(nn.Module):
 
     def forward(self, ex, ey):
         N = [len(ex), len(ey)]
-        dim = np.argmax(N)
+        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ex, ey).max(dim=0).values
+            if d == 0:
+                C = self.__stream_cos(ex, ey).max(dim=0).values
             else:
-                C = self.__stream_cos_one_sided(ey, ex).max(dim=0).values
+                C = self.__stream_cos(ey, ex).max(dim=0).values
 
         p = 1 - self.N.cdf(1 - C)
 
@@ -148,16 +148,16 @@ class entropy_kern(nn.Module):
 
     def forward(self, ex, ey):
         N = [len(ex), len(ey)]
-        dim = np.argmax(N)
+        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ex, ey).max(dim=0).values
+            if d == 0:
+                C = self.__stream_cos(ex, ey).max(dim=0).values
             else:
-                C = self.__stream_cos_one_sided(ey, ex).max(dim=0).values
+                C = self.__stream_cos(ey, ex).max(dim=0).values
 
         p = self.__kern(1 - C)
 
@@ -204,16 +204,16 @@ class information(nn.Module):
 
     def forward(self, ex, ey):
         N = [len(ex), len(ey)]
-        dim = np.argmax(N)
+        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ex,ey).max(dim=0).values
+            if d == 0:
+                C = self.__stream_cos(ex, ey).max(dim=0).values
             else:
-                C = self.__stream_cos_one_sided(ey, ex).max(dim=0).values
+                C = self.__stream_cos(ey, ex).max(dim=0).values
 
         logp = self.N.log_prob(1-C)
 
@@ -257,16 +257,16 @@ class information_cdf(nn.Module):
 
     def forward(self, ex, ey):
         N = [len(ex), len(ey)]
-        dim = np.argmax(N)
+        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ex, ey).max(dim=0).values
+            if d == 0:
+                C = self.__stream_cos(ex, ey).max(dim=0).values
             else:
-                C = self.__stream_cos_one_sided(ey, ex).max(dim=0).values
+                C = self.__stream_cos(ey, ex).max(dim=0).values
 
         p = 1 - self.N.cdf(1 - C)
 
@@ -311,16 +311,16 @@ class information_kern(nn.Module):
 
     def forward(self, ex, ey):
         N = [len(ex), len(ey)]
-        dim = np.argmax(N)
+        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
-
+            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
+            print(d, N[d], C.shape)
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ex, ey).max(dim=0).values
+            if d == 0:
+                C = self.__stream_cos(ex, ey).max(dim=0).values
             else:
-                C = self.__stream_cos_one_sided(ey, ex).max(dim=0).values
+                C = self.__stream_cos(ey, ex).max(dim=0).values
 
         p = self.__kern(1 - C)
 

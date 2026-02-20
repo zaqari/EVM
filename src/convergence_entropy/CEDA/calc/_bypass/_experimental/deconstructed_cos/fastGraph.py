@@ -22,7 +22,7 @@ class justCosinesFastGraph(nn.Module):
         self.analyzer.dim = None
 
         self.M, self.N, self.beta = [], [], None
-        self.save_k = 100000
+        self.save_k = 1000000
         self.ckpt_loc = iterated_checkpoint_dir
         if self.ckpt_loc:
             if not os.path.exists(iterated_checkpoint_dir):
