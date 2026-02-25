@@ -47,7 +47,10 @@ class entropy(nn.Module):
             C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            C = self.__stream_cos(ex, ey).max(dim=d).values
+            if d == 0:
+                C = self.__stream_cos(ey, ex).max(dim=-1).values
+            else:
+                C = self.__stream_cos(ex, ey).max(dim=-1).values
 
         logp = self.N.log_prob(1-C)
 
@@ -97,7 +100,10 @@ class entropy_cdf(nn.Module):
             C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            C = self.__stream_cos(ex, ey).max(dim=d).values
+            if d == 0:
+                C = self.__stream_cos(ey, ex).max(dim=-1).values
+            else:
+                C = self.__stream_cos(ex, ey).max(dim=-1).values
 
         p = 1 - self.N.cdf(1 - C)
 
@@ -148,7 +154,10 @@ class entropy_kern(nn.Module):
             C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            C = self.__stream_cos(ex, ey).max(dim=d).values
+            if d == 0:
+                C = self.__stream_cos(ey, ex).max(dim=-1).values
+            else:
+                C = self.__stream_cos(ex, ey).max(dim=-1).values
 
         p = self.__kern(1 - C)
 
@@ -201,7 +210,10 @@ class information(nn.Module):
             C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            C = self.__stream_cos(ex, ey).max(dim=d).values
+            if d == 0:
+                C = self.__stream_cos(ey, ex).max(dim=-1).values
+            else:
+                C = self.__stream_cos(ex, ey).max(dim=-1).values
 
         logp = self.N.log_prob(1-C)
 
@@ -251,7 +263,10 @@ class information_cdf(nn.Module):
             C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            C = self.__stream_cos(ex, ey).max(dim=d).values
+            if d == 0:
+                C = self.__stream_cos(ey, ex).max(dim=-1).values
+            else:
+                C = self.__stream_cos(ex, ey).max(dim=-1).values
 
         p = 1 - self.N.cdf(1 - C)
 
@@ -302,7 +317,10 @@ class information_kern(nn.Module):
             C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
 
         except Exception:
-            C = self.__stream_cos(ex, ey).max(dim=d).values
+            if d == 0:
+                C = self.__stream_cos(ey, ex).max(dim=-1).values
+            else:
+                C = self.__stream_cos(ex, ey).max(dim=-1).values
 
         p = self.__kern(1 - C)
 
