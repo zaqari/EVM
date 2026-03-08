@@ -37,7 +37,7 @@ class fastFlatGraphWithAnalyzer(nn.Module):
         self.M = torch.zeros(size=(len(x), 2))
         self.N = torch.zeros(size=(len(x), 2))
 
-        for (i, (x_, y_)) in tqdm(enumerate(list(zip(x,y)))):
+        for (i, (x_, y_)) in enumerate(tqdm(list(zip(x,y)))):
             H, N = self.analyzer(x_, y_)
             self.M[i, 0] = H[0].detach().cpu()
             self.M[i, 1] = H[1].detach().cpu()
