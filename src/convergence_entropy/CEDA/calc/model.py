@@ -10,6 +10,7 @@ import numpy.typing as npt
 from .end_to_end_analysis import analyzer
 from .fastGraph import fastFlatGraphWithAnalyzer as FGA
 from .entropy import entropy_cdf as entropy
+from .entropy import information_kern as Ik
 from .wv_model import wv as embeddings
 from itertools import combinations
 
@@ -21,6 +22,7 @@ class model(nn.Module):
             device: str = 'cpu',
             wv_model: str = 'roberta-base',
             wv_layers: list[int] = [8, -1],
+            kernel: str|None = None
     ):
         super(model, self).__init__()
         self.meta_data = []  # Labels for rows and cols. Inits as null.
@@ -32,15 +34,28 @@ class model(nn.Module):
             layers=wv_layers
         )
 
-        self.H = analyzer(  # Class that preprocesses texts into word
-            self.wvs,  # word vectors and passes them to an
-            sim_model=entropy(  # entropy class object.
-                sigma=sigma,
-                dim=None,
+        if (kernel == 'information') or (kernel == 'surprisal'):
+            self.H = analyzer(  # Class that preprocesses texts into word
+                self.wvs,       # word vectors and passes them to an
+                sim_model=Ik(   # entropy class object.
+                    sigma=sigma,
+                    dim=None,
+                    device=device
+                ),
                 device=device
-            ),
-            device=device
-        )
+            )
+
+        else:
+            self.H = analyzer(  # Class that preprocesses texts into word
+                self.wvs,  # word vectors and passes them to an
+                sim_model=entropy(  # entropy class object.
+                    sigma=sigma,
+                    dim=None,
+                    device=device
+                ),
+                device=device
+            )
+
 
         self.GRAPH = FGA(  # Graph object to run complete, end-to-end
             analyzer_object=self.H  # analysis and hold a graph of connections
