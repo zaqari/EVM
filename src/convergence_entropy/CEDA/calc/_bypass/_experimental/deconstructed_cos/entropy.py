@@ -34,16 +34,16 @@ class just_cosines(nn.Module):
         return cosM
 
     def one_sided(self, ex, ey):
-        dim = np.argmax([len(ex), len(ey)])
+        dim = np.argmin([len(ex), len(ey)])
 
         try:
             C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
 
         except Exception:
             if dim == 0:
-                C = self.__stream_cos_one_sided(ex,ey)
-            else:
                 C = self.__stream_cos_one_sided(ey,ex)
+            else:
+                C = self.__stream_cos_one_sided(ex,ey)
 
         return C
 

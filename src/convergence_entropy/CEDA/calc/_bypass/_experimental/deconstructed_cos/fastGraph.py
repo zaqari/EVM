@@ -36,7 +36,7 @@ class justCosinesFastGraph(nn.Module):
 
         for (i, (x_, y_)) in enumerate(tqdm(list(zip(x, y)))):
             H, N = self.analyzer(x_, y_)
-            self.M += [{'nx': N[0], 'ny': N[1], 'CoS': str(H.detach().cpu().tolist())}]
+            self.M += [{'nx': N[0], 'ny': N[1], 'CoS': H.detach().cpu().tolist()}]
 
             if ((i+1) % self.save_k) == 0:
                 pd.DataFrame(self.M).to_parquet(
@@ -47,7 +47,7 @@ class justCosinesFastGraph(nn.Module):
 
                 self.M = []
 
-        if len(self.M):
+        if len(self.M) > 0:
             pd.DataFrame(self.M).to_parquet(
                 os.path.join(self.ckpt_loc, 'ckpt-' + str(i) + '.parquet'),
                 engine='fastparquet',
@@ -58,7 +58,7 @@ class justCosinesFastGraph(nn.Module):
 
         for (i, (x_, y_)) in enumerate(tqdm(list(zip(x,y)))):
             H, N = self.analyzer(x_, y_)
-            self.M += [{'nx': N[0], 'ny': N[1], 'CoS': str(H.detach().cpu().tolist())}]
+            self.M += [{'nx': N[0], 'ny': N[1], 'CoS': H.detach().cpu().tolist()}]
 
     def fit(self, x: list, y: list):
         if self.ckpt_loc:

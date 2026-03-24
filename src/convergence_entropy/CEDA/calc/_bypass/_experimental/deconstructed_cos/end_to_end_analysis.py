@@ -50,6 +50,9 @@ class analyzer(nn.Module):
         else:
             return torch.zeros(size=(1, self.wv.mod.embeddings.word_embeddings.weight.shape[-1]*len(self.wv.layers))).float()
 
+    def embedded(self, x):
+        return self.__process_text(x)
+
     def forward(self, x=None, y=None):
 
         #The code below may seem strange, but it's quite helpful.
