@@ -40,21 +40,18 @@ class entropy(nn.Module):
         return cosM
 
     def forward(self, ex, ey):
-        N = [len(ex), len(ey)]
-        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
+            C = self.cos(ex.unsqueeze(1), ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
         except Exception:
-            if d == 0:
-                C = self.__stream_cos(ey, ex).max(dim=-1).values
-            else:
-                C = self.__stream_cos(ex, ey).max(dim=-1).values
+            C = self.__stream_cos(ex, ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
-        logp = self.N.log_prob(1-C)
+        logpx, logpy = self.N.log_prob(1-C[0]), self.N.log_prob(1-C[1])
 
-        return (-torch.exp(logp[:N[0]]) * logp[:N[0]]).sum(), (-torch.exp(logp[:N[1]]) * logp[:N[1]]).sum()
+        return (-torch.exp(logpx) * logpx).sum(), (-torch.exp(logpy) * logpy).sum()
 
 class entropy_cdf(nn.Module):
 
@@ -93,21 +90,18 @@ class entropy_cdf(nn.Module):
         return cosM
 
     def forward(self, ex, ey):
-        N = [len(ex), len(ey)]
-        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
+            C = self.cos(ex.unsqueeze(1), ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
         except Exception:
-            if d == 0:
-                C = self.__stream_cos(ey, ex).max(dim=-1).values
-            else:
-                C = self.__stream_cos(ex, ey).max(dim=-1).values
+            C = self.__stream_cos(ex, ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
-        p = 1 - self.N.cdf(1 - C)
+        px, py = self.N.cdf(1 - C[0]), self.N.cdf(1 - C[1])
 
-        return (-torch.log(p[:N[0]]) * p[:N[0]]).sum(), (-torch.log(p[:N[1]]) * p[:N[1]]).sum()
+        return (-px * torch.log(px)).sum(), (-py * torch.log(py)).sum()
 
 class entropy_kern(nn.Module):
 
@@ -203,21 +197,18 @@ class information(nn.Module):
         return cosM
 
     def forward(self, ex, ey):
-        N = [len(ex), len(ey)]
-        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
+            C = self.cos(ex.unsqueeze(1), ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
         except Exception:
-            if d == 0:
-                C = self.__stream_cos(ey, ex).max(dim=-1).values
-            else:
-                C = self.__stream_cos(ex, ey).max(dim=-1).values
+            C = self.__stream_cos(ex, ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
-        logp = self.N.log_prob(1-C)
+        logpx, logpy = self.N.log_prob(1 - C[0]), self.N.log_prob(1 - C[1])
 
-        return (-logp[:N[0]]).sum(), (-logp[:N[1]]).sum()
+        return (-logpx).sum(), (-logpy).sum()
 
 class information_cdf(nn.Module):
 
@@ -256,21 +247,18 @@ class information_cdf(nn.Module):
         return cosM
 
     def forward(self, ex, ey):
-        N = [len(ex), len(ey)]
-        d = np.argmin(N)
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
+            C = self.cos(ex.unsqueeze(1), ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
         except Exception:
-            if d == 0:
-                C = self.__stream_cos(ey, ex).max(dim=-1).values
-            else:
-                C = self.__stream_cos(ex, ey).max(dim=-1).values
+            C = self.__stream_cos(ex, ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
-        p = 1 - self.N.cdf(1 - C)
+        logpx, logpy = torch.log(self.N.cdf(1 - C[0])), torch.log(self.N.cdf(1 - C[1]))
 
-        return (-torch.log(p[:N[0]])).sum(), (-torch.log(p[:N[1]])).sum()
+        return (-logpx).sum(), (-logpy).sum()
 
 class information_kern(nn.Module):
 
@@ -310,18 +298,14 @@ class information_kern(nn.Module):
         return cosM
 
     def forward(self, ex, ey):
-        N = [len(ex), len(ey)]
-        d = np.argmin(N)
-
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=d).values
+            C = self.cos(ex.unsqueeze(1), ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
         except Exception:
-            if d == 0:
-                C = self.__stream_cos(ey, ex).max(dim=-1).values
-            else:
-                C = self.__stream_cos(ex, ey).max(dim=-1).values
+            C = self.__stream_cos(ex, ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
-        p = self.__kern(1 - C)
+        px, py = self.__kern(1 - C[0]), self.__kern(1 - C[1])
 
-        return (-torch.log(p[:N[0]])).sum(), (-torch.log(p[:N[1]])).sum()
+        return (-torch.log(px)).sum(), (-torch.log(py)).sum()

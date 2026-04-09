@@ -33,19 +33,14 @@ class just_cosines(nn.Module):
 
         return cosM
 
-    def one_sided(self, ex, ey):
-        dim = np.argmin([len(ex), len(ey)])
+    def forward(self, ex, ey):
 
         try:
-            C = self.cos(ex.unsqueeze(1), ey).max(dim=dim).values
+            C = self.cos(ex.unsqueeze(1), ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
         except Exception:
-            if dim == 0:
-                C = self.__stream_cos_one_sided(ey,ex)
-            else:
-                C = self.__stream_cos_one_sided(ex,ey)
+            C = self.__stream_cos(ex, ey)
+            C = (C.max(dim=-1).values, C.max(dim=0).values)
 
-        return C
-
-    def forward(self, ex, ey):
-        return self.one_sided(ex, ey)
+        return torch.cat([C[0].view(-1), C[1].view(-1)],dim=-1)

@@ -34,7 +34,7 @@ class model(nn.Module):
             layers=wv_layers
         )
 
-        if (kernel == 'information') or (kernel == 'surprisal'):
+        if (kernel == 'information') or (kernel == 'surprisal') or (kernel.lower()=='cooney'):
             self.H = analyzer(  # Class that preprocesses texts into word
                 self.wvs,       # word vectors and passes them to an
                 sim_model=Ik(   # entropy class object.
@@ -83,17 +83,18 @@ class model(nn.Module):
 
     def graph_df(self, residualize: bool=True):
 
-        if residualize:
-            df = pd.DataFrame(
-                np.concatenate([self.GRAPH.N.numpy(), self.GRAPH.residual().numpy()], axis=-1),
-                columns=['nx', 'ny', 'Hxy', 'Hyx']
-            )
+        # if residualize:
+        #     df = pd.DataFrame(
+        #         np.concatenate([self.GRAPH.N.numpy(), self.GRAPH.residual().numpy()], axis=-1),
+        #         columns=['nx', 'ny', 'Hxy', 'Hyx']
+        #     )
+        #
+        # else:
 
-        else:
-            df = pd.DataFrame(
-                np.concatenate([self.GRAPH.N.numpy(), self.GRAPH.M.numpy()], axis=-1),
-                columns=['nx', 'ny', 'Hxy', 'Hyx']
-            )
+        df = pd.DataFrame(
+            np.concatenate([self.GRAPH.N.numpy(), self.GRAPH.M.numpy()], axis=-1),
+            columns=['nx', 'ny', 'Hxy', 'Hyx']
+        )
 
         if self.meta_data and (len(self.meta_data) == len(df)):
             df = pd.concat([
