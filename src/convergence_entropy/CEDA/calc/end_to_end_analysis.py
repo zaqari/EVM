@@ -13,7 +13,7 @@ def sentences(text):
 
 class analyzer(nn.Module):
 
-    def __init__(self, wv: object, sim_model: object, device: str='cuda'):
+    def __init__(self, wv: object, sim_model: object, device: str='cuda', x_kw:str|None=None, y_kw: str|None=None):
         super(analyzer, self).__init__()
         self.dev = device
         self.wv = wv
@@ -23,11 +23,22 @@ class analyzer(nn.Module):
         self.y_text = None
         self.ey = None
 
-    def __process_text(self, x):
+        # keywords to look for
+        self.xkw = x_kw
+        self.ykw = y_kw
+
+    def __process_text(self, x, look_for_kw: str|None=None):
         texts = sentences(x)
         VECS = []
         for text in texts:
             try:
+                #ToDo:
+                # (1) add function to replace text with kw between sp token brackets
+                # (2) sel on just the keyword vecs
+
+                # if look_for_kw:
+                #   text = str(text).replace(look_for_kw, '[XxX] ' + look_for_kw + ' [XxX]')
+
                 w, tokens = self.wv._tokenize(str(text).replace('\n', ' '))
                 sel = (
                         (
@@ -38,6 +49,10 @@ class analyzer(nn.Module):
                 )
 
                 w = np.array(w)[sel]
+
+                # if look_for_kw:
+                #   select keyword span by finding the region bounded by the special keywork tokens
+                #   remove the special kw tokens in w
 
                 vecs = self.wv.E(torch.LongTensor(w).view(-1))
                 VECS += [vecs]
