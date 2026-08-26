@@ -13,6 +13,8 @@ class wv(nn.Module):
         # BERT Model components
         self.config = AutoConfig.from_pretrained(model, output_hidden_states=True)
         self.tokenizer = AutoTokenizer.from_pretrained(model)
+        self.tokenizer.add_tokens(['[XxX]'], special_tokens=True)
+
         self.mod = AutoModel.from_pretrained(model, config=self.config).to(self.dev)
 
         # Vector manipulations

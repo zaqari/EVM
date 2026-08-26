@@ -22,7 +22,9 @@ class model(nn.Module):
             device: str = 'cpu',
             wv_model: str = 'roberta-base',
             wv_layers: list[int] = [8, -1],
-            kernel: str|None = None
+            kernel: str|None = None,
+            x_keyword: str='',
+            y_keyword: str=''
     ):
         super(model, self).__init__()
         self.meta_data = []  # Labels for rows and cols. Inits as null.
@@ -42,7 +44,9 @@ class model(nn.Module):
                     dim=None,
                     device=device
                 ),
-                device=device
+                device=device,
+                x_kw=x_keyword,
+                y_kw=y_keyword
             )
 
         else:
