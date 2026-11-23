@@ -34,7 +34,7 @@ class analyzer(nn.Module):
             try:
 
                 if look_for_kw:
-                  text = str(text).replace(look_for_kw, ' [XxX] ' + look_for_kw + ' [XxX]')
+                    text = str(text).replace(look_for_kw, ' [XxX] ' + look_for_kw + ' [XxX]')
 
                 w, tokens = self.wv._tokenize(str(text).replace('\n', ' '))
                 sel = (

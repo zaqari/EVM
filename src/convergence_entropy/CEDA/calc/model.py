@@ -57,7 +57,9 @@ class model(nn.Module):
                     dim=None,
                     device=device
                 ),
-                device=device
+                device=device,
+                x_kw=x_keyword,
+                y_kw=y_keyword
             )
 
 
